@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/")
 public class homeController {
 
-    @GetMapping("hello/{name}")
-    public String sayHello(@PathVariable String name){
-        return "hello " + name;
+    @GetMapping("hello")
+    public String sayHello(){
+        return "Hello world!";
     }
 
 }
