@@ -1,6 +1,5 @@
-package pl.polsl.bookSharing.controllers;
+package pl.polsl.bookSharing.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
