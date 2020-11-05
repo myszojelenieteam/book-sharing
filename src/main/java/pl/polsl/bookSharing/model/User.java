@@ -1,13 +1,15 @@
 package pl.polsl.bookSharing.model;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = "email"))
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long userId;
+    private Long userId;
 
     @OneToOne
     private RealShelf realShelf;
@@ -20,7 +22,14 @@ public class User {
     private String email;
     private String nick;
     private String password;
-    private Role role;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "userId"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "role_id", referencedColumnName = "roleId"))
+    private Collection<Role> roles;
 
 
     public Long getUserId() {
@@ -29,6 +38,22 @@ public class User {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public RealShelf getRealShelf() {
+        return realShelf;
+    }
+
+    public void setRealShelf(RealShelf realShelf) {
+        this.realShelf = realShelf;
+    }
+
+    public RealShelf getVirtualRealShelf() {
+        return virtualRealShelf;
+    }
+
+    public void setVirtualRealShelf(RealShelf virtualRealShelf) {
+        this.virtualRealShelf = virtualRealShelf;
     }
 
     public String getName() {
@@ -71,27 +96,11 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
+    public Collection<Role> getRoles() {
+        return roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public RealShelf getRealShelf() {
-        return realShelf;
-    }
-
-    public void setRealShelf(RealShelf realShelf) {
-        this.realShelf = realShelf;
-    }
-
-    public RealShelf getVirtualShelf() {
-        return virtualRealShelf;
-    }
-
-    public void setVirtualShelf(RealShelf virtualRealShelf) {
-        this.virtualRealShelf = virtualRealShelf;
+    public void setRoles(Collection<Role> roles) {
+        this.roles = roles;
     }
 }
